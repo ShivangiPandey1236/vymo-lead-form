@@ -1,5 +1,6 @@
 type CheckboxProps = {
   checked: boolean;
+  label: string;
   onChange: (checked: boolean) => void;
   onBlur?: () => void;
   error?: string;
@@ -7,12 +8,13 @@ type CheckboxProps = {
 
 export function Checkbox({
   checked,
+  label,
   onChange,
   onBlur,
   error,
 }: CheckboxProps) {
   return (
-    <div className="checkbox-field">
+    <label className="checkbox-field">
       <input
         type="checkbox"
         checked={checked}
@@ -23,11 +25,9 @@ export function Checkbox({
         aria-invalid={Boolean(error)}
       />
 
-      {error && (
-        <span className="checkbox-error">
-          {error}
-        </span>
-      )}
-    </div>
+      <span className="checkbox-label">
+        {label}
+      </span>
+    </label>
   );
 }

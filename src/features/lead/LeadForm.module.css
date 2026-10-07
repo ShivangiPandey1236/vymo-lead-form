@@ -1,0 +1,371 @@
+.form {
+  width: 100%;
+  max-width: 920px;
+  margin: 40px auto;
+  padding: 40px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+  box-sizing: border-box;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.title {
+  margin: 0 0 36px;
+  color: #111827;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: left;
+}
+
+/* =========================
+   FORM GRID
+========================= */
+
+.fields {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 26px;
+  row-gap: 24px;
+}
+
+.field {
+  width: 100%;
+  min-width: 0;
+}
+
+.fieldFull {
+  width: 100%;
+  min-width: 0;
+  grid-column: 1 / -1;
+}
+
+/* =========================
+   FORM FIELD
+========================= */
+
+:global(.form-field) {
+  width: 100%;
+  min-width: 0;
+}
+
+:global(.form-field-label) {
+  display: block;
+  margin: 0 0 8px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+}
+
+:global(.form-field-hint) {
+  display: block;
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+:global(.form-field-error) {
+  display: block;
+  margin-top: 7px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+}
+
+/* =========================
+   CONTROLS
+========================= */
+
+.control {
+  width: 100%;
+  min-width: 0;
+}
+
+.control input,
+.control select,
+.control textarea {
+  width: 100%;
+  max-width: 100%;
+  min-height: 46px;
+  padding: 11px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #111827;
+  box-sizing: border-box;
+  font-size: 15px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.control input::placeholder,
+.control textarea::placeholder {
+  color: #9ca3af;
+}
+
+.control input:focus,
+.control select:focus,
+.control textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.control input:hover,
+.control select:hover,
+.control textarea:hover {
+  border-color: #9ca3af;
+}
+
+.control textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.control select {
+  cursor: pointer;
+}
+
+/* =========================
+   CHECKBOX / CONSENT
+========================= */
+
+:global(.checkbox-field) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  cursor: pointer;
+}
+
+:global(.checkbox-field input[type="checkbox"]) {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  margin: 2px 0 0;
+  padding: 0;
+  flex: 0 0 18px;
+  cursor: pointer;
+  accent-color: #2563eb;
+}
+
+:global(.checkbox-label) {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+}
+
+:global(.checkbox-field input[type="checkbox"]:focus-visible) {
+  outline: 3px solid rgba(37, 99, 235, 0.2);
+  outline-offset: 2px;
+}
+
+:global(.checkbox-error) {
+  display: block;
+  margin-top: 7px;
+  margin-left: 28px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 28px;
+}
+
+.actions button {
+  min-height: 44px;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* =========================
+   SUCCESS MESSAGE
+========================= */
+
+.success {
+  margin: 16px 0 0;
+  color: #15803d;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 1024px) {
+  .form {
+    max-width: 760px;
+    padding: 32px;
+  }
+
+  .fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .field,
+  .fieldFull {
+    grid-column: auto;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+  .form {
+    width: calc(100% - 24px);
+    max-width: none;
+    margin: 16px auto;
+    padding: 24px 16px;
+    border-radius: 14px;
+  }
+
+  .title {
+    margin-bottom: 26px;
+    font-size: 25px;
+    line-height: 1.25;
+  }
+
+  .fields {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .field,
+  .fieldFull {
+    width: 100%;
+    min-width: 0;
+    grid-column: auto;
+  }
+
+  :global(.form-field) {
+    width: 100%;
+    min-width: 0;
+  }
+
+  :global(.form-field-label) {
+    margin-bottom: 7px;
+    font-size: 14px;
+  }
+
+  .control {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .control input,
+  .control select,
+  .control textarea {
+    width: 100%;
+    max-width: 100%;
+    font-size: 15px;
+  }
+
+  .control textarea {
+    min-height: 110px;
+  }
+
+  :global(.checkbox-field) {
+    width: 100%;
+    max-width: 100%;
+    align-items: flex-start;
+    gap: 9px;
+  }
+
+  :global(.checkbox-field input[type="checkbox"]) {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    flex: 0 0 18px;
+    margin-top: 2px;
+  }
+
+  :global(.checkbox-label) {
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  :global(.checkbox-error) {
+    margin-left: 27px;
+    font-size: 13px;
+  }
+
+  .actions {
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+  .success {
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 380px) {
+  .form {
+    width: calc(100% - 16px);
+    padding: 20px 14px;
+  }
+
+  .title {
+    font-size: 23px;
+  }
+
+  .fields {
+    gap: 18px;
+  }
+}

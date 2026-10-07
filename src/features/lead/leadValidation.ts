@@ -1,68 +1,89 @@
-import type { FieldConfig } from "./leadConfig";
+export type LeadFormValues = {
+  fullName: string;
+  email: string;
+  leadType: string;
+  companyName: string;
+  phone: string;
+  notes: string;
+  consent: boolean;
+};
 
-export type LeadFormValues = Record<string, string | boolean>;
-
-export type LeadFormErrors = Record<string, string>;
+export type LeadFormErrors = Partial<
+  Record<keyof LeadFormValues, string>
+>;
 
 export function validateLeadForm(
-  config: FieldConfig[],
+  config: any[],
   values: LeadFormValues
 ): LeadFormErrors {
   const errors: LeadFormErrors = {};
 
   config.forEach((field) => {
-    // Skip hidden fields
+    // Check if conditional field should be validated
     if (field.showWhen) {
-      const dependentValue = values[field.showWhen.field];
+      const dependentValue =
+        values[field.showWhen.field as keyof LeadFormValues];
 
       if (dependentValue !== field.showWhen.value) {
         return;
       }
     }
 
-    const value = values[field.name];
+    const value =
+      values[field.name as keyof LeadFormValues];
 
     // Required validation
     if (field.required) {
       const isEmpty =
-        value === undefined ||
-        value === "" ||
-        value === false;
+        typeof value === "boolean"
+          ? value === false
+          : String(value).trim() === "";
 
       if (isEmpty) {
-        errors[field.name] = `${field.label} is required`;
+        if (field.name === "consent") {
+          errors.consent = "Consent is required";
+        } else {
+          errors[field.name as keyof LeadFormValues] =
+            `${field.label} is required`;
+        }
+
         return;
       }
     }
 
     // Email validation
-    if (field.type === "email" && typeof value === "string") {
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (
+      field.name === "email" &&
+      String(value).trim() !== ""
+    ) {
+      const emailRegex =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      if (!emailPattern.test(value)) {
-        errors[field.name] = "Please enter a valid email";
-        return;
+      if (!emailRegex.test(String(value))) {
+        errors.email = "Please enter a valid email";
       }
     }
 
     // Phone validation
-    if (field.name === "phone" && typeof value === "string") {
-      const phonePattern = /^\d{10}$/;
+    if (
+      field.name === "phone" &&
+      String(value).trim() !== ""
+    ) {
+      const phoneRegex = /^\d{10}$/;
 
-      if (!phonePattern.test(value)) {
-        errors[field.name] = "Phone must be exactly 10 digits";
-        return;
+      if (!phoneRegex.test(String(value))) {
+        errors.phone =
+          "Phone must be exactly 10 digits";
       }
     }
 
-    // Maximum length validation
+    // Notes validation
     if (
-      field.maxLength &&
-      typeof value === "string" &&
-      value.length > field.maxLength
+      field.name === "notes" &&
+      String(value).length > 200
     ) {
-      errors[field.name] =
-        `${field.label} must be ${field.maxLength} characters or less`;
+      errors.notes =
+        "Notes must not exceed 200 characters";
     }
   });
 

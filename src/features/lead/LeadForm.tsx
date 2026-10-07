@@ -13,6 +13,8 @@ import {
   type LeadFormValues,
 } from "./leadValidation";
 
+import styles from "./LeadForm.module.css";
+
 const initialValues: LeadFormValues = {
   fullName: "",
   email: "",
@@ -42,14 +44,17 @@ export function LeadForm() {
       [fieldName]: value,
     }));
 
-    // Remove error when user changes the field
     setErrors((previousErrors) => ({
       ...previousErrors,
       [fieldName]: "",
     }));
+
+    setSubmitted(false);
   };
 
-  const isFieldVisible = (field: (typeof leadFormConfig)[number]) => {
+  const isFieldVisible = (
+    field: (typeof leadFormConfig)[number]
+  ) => {
     if (!field.showWhen) {
       return true;
     }
@@ -92,89 +97,129 @@ export function LeadForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {leadFormConfig.map((field) => {
-        if (!isFieldVisible(field)) {
-          return null;
-        }
+    <form
+      className={styles.form}
+      onSubmit={handleSubmit}
+    >
+      <h1 className={styles.title}>
+        Lead Capture Form
+      </h1>
 
-        const fieldValue = values[field.name];
+      <div className={styles.fields}>
+        {leadFormConfig.map((field) => {
+          if (!isFieldVisible(field)) {
+            return null;
+          }
 
-        return (
-          <FormField
-            key={field.name}
-            label={field.label}
-            error={errors[field.name]}
-          >
-            {field.type === "text" && (
-              <TextInput
-                value={String(fieldValue ?? "")}
-                placeholder={field.placeholder}
-                onChange={(value) =>
-                  updateValue(field.name, value)
-                }
-                onBlur={handleBlur}
-              />
-            )}
+          const fieldValue = values[field.name];
 
-            {field.type === "email" && (
-              <TextInput
-                type="email"
-                value={String(fieldValue ?? "")}
-                placeholder={field.placeholder}
-                onChange={(value) =>
-                  updateValue(field.name, value)
-                }
-                onBlur={handleBlur}
-              />
-            )}
+          const isFullWidth =
+            field.name === "notes" ||
+            field.name === "consent";
 
-            {field.type === "select" && (
-              <Select
-                value={String(fieldValue ?? "")}
-                options={field.options ?? []}
-                placeholder="Select an option"
-                onChange={(value) =>
-                  updateValue(field.name, value)
-                }
-                onBlur={handleBlur}
-              />
-            )}
+          return (
+            <div
+              key={field.name}
+              className={
+                isFullWidth
+                  ? styles.fieldFull
+                  : styles.field
+              }
+            >
+             <FormField
+  label={field.label}
+  error={errors[field.name]}
+  hideLabel={field.type === "checkbox"}
+>
+                <div className={styles.control}>
+                  {field.type === "text" && (
+                    <TextInput
+                      value={String(fieldValue ?? "")}
+                      placeholder={field.placeholder}
+                      onChange={(value) =>
+                        updateValue(
+                          field.name,
+                          value
+                        )
+                      }
+                      onBlur={handleBlur}
+                    />
+                  )}
 
-            {field.type === "checkbox" && (
-              <Checkbox
-                checked={Boolean(fieldValue)}
-                onChange={(checked) =>
-                  updateValue(field.name, checked)
-                }
-                onBlur={handleBlur}
-              />
-            )}
+                  {field.type === "email" && (
+                    <TextInput
+                      type="email"
+                      value={String(fieldValue ?? "")}
+                      placeholder={field.placeholder}
+                      onChange={(value) =>
+                        updateValue(
+                          field.name,
+                          value
+                        )
+                      }
+                      onBlur={handleBlur}
+                    />
+                  )}
 
-            {field.type === "textarea" && (
-              <textarea
-                value={String(fieldValue ?? "")}
-                placeholder={field.placeholder}
-                maxLength={field.maxLength}
-                onChange={(event) =>
-                  updateValue(
-                    field.name,
-                    event.target.value
-                  )
-                }
-                onBlur={handleBlur}
-              />
-            )}
-          </FormField>
-        );
-      })}
+                  {field.type === "select" && (
+                    <Select
+                      value={String(fieldValue ?? "")}
+                      options={field.options ?? []}
+                      placeholder="Select an option"
+                      onChange={(value) =>
+                        updateValue(
+                          field.name,
+                          value
+                        )
+                      }
+                      onBlur={handleBlur}
+                    />
+                  )}
 
-      <Button type="submit">
-        Submit
-      </Button>
+                  {field.type === "checkbox" && (
+  <Checkbox
+    checked={Boolean(fieldValue)}
+    label={field.label}
+    error={errors[field.name]}
+    onChange={(checked) =>
+      updateValue(
+        field.name,
+        checked
+      )
+    }
+    onBlur={handleBlur}
+  />
+)}
+
+                  {field.type === "textarea" && (
+                    <textarea
+                      value={String(fieldValue ?? "")}
+                      placeholder={field.placeholder}
+                      maxLength={field.maxLength}
+                      onChange={(event) =>
+                        updateValue(
+                          field.name,
+                          event.target.value
+                        )
+                      }
+                      onBlur={handleBlur}
+                    />
+                  )}
+                </div>
+              </FormField>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className={styles.actions}>
+        <Button type="submit">
+          Submit
+        </Button>
+      </div>
 
       {submitted && (
-        <p>
+        <p className={styles.success}>
           Form submitted successfully!
         </p>
       )}

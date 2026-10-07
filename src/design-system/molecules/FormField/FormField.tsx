@@ -3,6 +3,7 @@ type FormFieldProps = {
   children: React.ReactNode;
   hint?: string;
   error?: string;
+  hideLabel?: boolean;
 };
 
 export function FormField({
@@ -10,14 +11,19 @@ export function FormField({
   children,
   hint,
   error,
+  hideLabel = false,
 }: FormFieldProps) {
   return (
     <div className="form-field">
-      <label className="form-field-label">
-        {label}
-      </label>
+      {!hideLabel && (
+        <label className="form-field-label">
+          {label}
+        </label>
+      )}
 
-      {children}
+      <div className="form-field-control">
+        {children}
+      </div>
 
       {hint && !error && (
         <span className="form-field-hint">
@@ -26,7 +32,10 @@ export function FormField({
       )}
 
       {error && (
-        <span className="form-field-error">
+        <span
+          className="form-field-error"
+          role="alert"
+        >
           {error}
         </span>
       )}
