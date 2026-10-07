@@ -1,32 +1,58 @@
-# React + TypeScript + Vite
+# Dynamic Lead Form & Design System
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A responsive dynamic lead form built with React and TypeScript.
 
-Currently, two official plugins are available:
+The project demonstrates a small reusable design system, config-driven form rendering, conditional fields, centralized validation, and responsive layouts without using a third-party component library.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+- React
+- TypeScript
+- Vite
+- CSS Modules
+- Plain CSS
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the Oxlint configuration
+- Config-driven dynamic form
+- Reusable design-system atoms
+- Reusable `FormField` molecule
+- Conditional Company Name field
+- Validation on blur and submit
+- Email validation
+- 10-digit phone validation
+- Required consent validation
+- Notes limited to 200 characters
+- Responsive desktop, tablet, and mobile layouts
+- Submitted values displayed in the console
+- No backend or database required
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## Project Structure
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+src/
+├── design-system/
+│   ├── tokens/
+│   │   └── tokens.css
+│   ├── atoms/
+│   │   ├── TextInput/
+│   │   │   └── TextInput.tsx
+│   │   ├── Select/
+│   │   │   └── Select.tsx
+│   │   ├── Checkbox/
+│   │   │   └── Checkbox.tsx
+│   │   └── Button/
+│   │       └── Button.tsx
+│   └── molecules/
+│       └── FormField/
+│           └── FormField.tsx
+│
+├── features/
+│   └── lead/
+│       ├── leadConfig.ts
+│       ├── leadValidation.ts
+│       ├── LeadForm.tsx
+│       └── LeadForm.module.css
+│
+├── App.tsx
+└── main.tsx
