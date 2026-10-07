@@ -4,7 +4,6 @@ type SelectOption = {
 };
 
 type SelectProps = {
-  label: string;
   value: string;
   options: SelectOption[];
   onChange: (value: string) => void;
@@ -14,7 +13,6 @@ type SelectProps = {
 };
 
 export function Select({
-  label,
   value,
   options,
   onChange,
@@ -24,15 +22,15 @@ export function Select({
 }: SelectProps) {
   return (
     <div className="select-field">
-      <label>{label}</label>
-
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
         onBlur={onBlur}
         aria-invalid={Boolean(error)}
       >
-        {placeholder && <option value="">{placeholder}</option>}
+        {placeholder && (
+          <option value="">{placeholder}</option>
+        )}
 
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -41,7 +39,11 @@ export function Select({
         ))}
       </select>
 
-      {error && <span className="select-error">{error}</span>}
+      {error && (
+        <span className="select-error">
+          {error}
+        </span>
+      )}
     </div>
   );
 }
